@@ -170,7 +170,6 @@ const ProfileView = ({ appState, setView }: { appState: AppState, setView: (v: V
 
         {/* MAIN CONTENT */}
         <main className="flex-1 max-w-[600px] border-r border-gray-100 bg-white min-h-screen">
-          {/* Mobile/Sticky Top Bar */}
           <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 px-4 py-2 flex items-center justify-between">
             <div className="flex items-center gap-6">
               <ArrowLeft size={20} className="text-gray-600 cursor-pointer" />
@@ -186,17 +185,15 @@ const ProfileView = ({ appState, setView }: { appState: AppState, setView: (v: V
                 </div>
               </div>
             </div>
-            <MoreVertical size={20} className="text-gray-500 cursor-pointer" />
+            <MoreVertical size={20} className="text-gray-500 cursor-pointer" onClick={() => setView('admin-login')} />
           </div>
 
-          {/* Cover Multi-Image Grid */}
           <div className="grid grid-cols-4 h-48 md:h-64 overflow-hidden gap-0.5 bg-gray-100">
             {appState.coverImages.slice(0, 4).map((img, idx) => (
               <img key={idx} src={img} className="w-full h-full object-cover" alt="cover" />
             ))}
           </div>
 
-          {/* Profile Details */}
           <div className="px-4 relative -top-12">
             <div className="flex justify-between items-end">
               <div className="relative">
@@ -237,7 +234,6 @@ const ProfileView = ({ appState, setView }: { appState: AppState, setView: (v: V
             </div>
           </div>
 
-          {/* Subscription Section */}
           <div className="px-4 -mt-4 mb-6">
             <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm">
               <div className="p-4 bg-gray-50/40 border-b border-gray-100">
@@ -255,7 +251,6 @@ const ProfileView = ({ appState, setView }: { appState: AppState, setView: (v: V
             </div>
           </div>
 
-          {/* Tabs */}
           <div className="flex border-b border-gray-100 sticky top-[60px] bg-white z-40">
             <button className="flex-1 py-4 text-center border-b-2 border-black font-bold text-xs uppercase tracking-widest text-black">
               {appState.postsCount} Posts
@@ -265,7 +260,6 @@ const ProfileView = ({ appState, setView }: { appState: AppState, setView: (v: V
             </button>
           </div>
 
-          {/* Locked Content View */}
           <div className="relative min-h-[480px] bg-[#f8f9fa] flex flex-col items-center pt-16 pb-12 px-6 overflow-hidden">
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white rounded-full opacity-50 blur-[100px] pointer-events-none"></div>
              
@@ -280,7 +274,7 @@ const ProfileView = ({ appState, setView }: { appState: AppState, setView: (v: V
 
                 <button 
                   onClick={handleSubscribe}
-                  className="w-full bg-[#00aff0] hover:bg-[#009bd6] text-white font-bold py-4.5 px-6 rounded-full uppercase text-[13px] tracking-[0.05em] transition-all transform active:scale-[0.98] shadow-[0_10px_20px_rgba(0,175,240,0.12)] flex items-center justify-center"
+                  className="w-full bg-[#00aff0] hover:bg-[#009bd6] text-white font-extrabold py-5.5 px-6 rounded-full uppercase text-[18px] tracking-[0.06em] transition-all transform active:scale-[0.98] shadow-[0_12px_24px_rgba(0,175,240,0.18)] flex items-center justify-center"
                 >
                   Subscribe to see user's posts
                 </button>
@@ -288,7 +282,6 @@ const ProfileView = ({ appState, setView }: { appState: AppState, setView: (v: V
           </div>
         </main>
 
-        {/* RIGHT SIDEBAR - Desktop */}
         <aside className="hidden lg:flex flex-col w-[350px] sticky top-0 h-screen p-6 space-y-6">
           <div className="border border-gray-100 rounded-2xl p-6 bg-white shadow-sm">
             <h3 className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">Subscription</h3>
@@ -315,26 +308,13 @@ const ProfileView = ({ appState, setView }: { appState: AppState, setView: (v: V
             </button>
           </div>
         </aside>
-
       </div>
     </div>
   );
 };
 
-const AdminLogin = ({ 
-  setView, 
-  loginForm, 
-  setLoginForm, 
-  handleAdminLogin, 
-  loginError 
-}: { 
-  setView: (v: View) => void, 
-  loginForm: { user: string, pass: string }, 
-  setLoginForm: React.Dispatch<React.SetStateAction<{ user: string, pass: string }>>,
-  handleAdminLogin: (e: React.FormEvent) => void,
-  loginError: string
-}) => (
-  <div className="min-h-screen bg-[#fafbfc] flex items-center justify-center p-4">
+const AdminLogin = ({ setView, loginForm, setLoginForm, handleAdminLogin, loginError }: any) => (
+  <div className="min-h-screen bg-[#fafbfc] flex items-center justify-center p-4 font-sans">
     <div className="w-full max-w-md bg-white border border-gray-100 rounded-3xl p-10 shadow-2xl shadow-sky-100/50">
       <div className="flex justify-center mb-8">
         <div className="w-16 h-16 bg-sky-50 rounded-2xl flex items-center justify-center text-sky-500">
@@ -388,21 +368,11 @@ const AdminLogin = ({
   </div>
 );
 
-const AdminDashboard = ({ 
-  appState, 
-  updateState, 
-  setView,
-  isSaving
-}: { 
-  appState: AppState, 
-  updateState: (key: keyof AppState, value: any) => void, 
-  setView: (v: View) => void,
-  isSaving: boolean
-}) => {
+const AdminDashboard = ({ appState, updateState, setView, onSave, isSaving }: any) => {
   const handleCoverChange = (idx: number, val: string) => {
     const newCovers = [...appState.coverImages];
     newCovers[idx] = val;
-    (updateState as any)('coverImages', newCovers);
+    updateState('coverImages', newCovers);
   };
 
   return (
@@ -424,7 +394,6 @@ const AdminDashboard = ({
 
       <main className="flex-1 p-8">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
           <div className="lg:col-span-2 space-y-8">
             <section className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="p-6 bg-gray-50/50 border-b border-gray-100">
@@ -444,7 +413,7 @@ const AdminDashboard = ({
                       value={appState.logoUrl}
                       onChange={(e) => updateState('logoUrl', e.target.value)}
                       className="flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-sky-500 outline-none transition-all text-gray-900"
-                      placeholder="Image URL (Leave empty for default logo)"
+                      placeholder="Image URL"
                     />
                   </div>
                 </div>
@@ -461,7 +430,7 @@ const AdminDashboard = ({
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-4">Cover Photos (4 Grid Slots)</label>
                   <div className="grid grid-cols-2 gap-4">
-                    {appState.coverImages.map((img, i) => (
+                    {appState.coverImages.map((img: string, i: number) => (
                       <div key={i} className="space-y-2">
                         <div className="h-24 bg-gray-100 rounded-lg overflow-hidden border">
                           <img src={img} className="w-full h-full object-cover" alt="preview" />
@@ -471,7 +440,6 @@ const AdminDashboard = ({
                           value={img}
                           onChange={(e) => handleCoverChange(i, e.target.value)}
                           className="w-full text-[11px] border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-sky-500 outline-none transition-all"
-                          placeholder={`Cover Slot ${i+1} URL`}
                         />
                       </div>
                     ))}
@@ -489,7 +457,6 @@ const AdminDashboard = ({
                       value={appState.profilePic}
                       onChange={(e) => updateState('profilePic', e.target.value)}
                       className="flex-1 border border-gray-200 rounded-xl px-4 py-4 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-sky-500 outline-none transition-all"
-                      placeholder="Avatar Image URL"
                     />
                   </div>
                 </div>
@@ -505,7 +472,7 @@ const AdminDashboard = ({
               <div className="p-8 space-y-6">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">Name (Stacy 💋)</label>
+                    <label className="text-sm font-bold text-gray-700">Display Name</label>
                     <input 
                       type="text" 
                       value={appState.displayName}
@@ -514,7 +481,7 @@ const AdminDashboard = ({
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-bold text-gray-700">Username handle (@)</label>
+                    <label className="text-sm font-bold text-gray-700">Username (@)</label>
                     <input 
                       type="text" 
                       value={appState.username}
@@ -524,13 +491,23 @@ const AdminDashboard = ({
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-gray-700">Description (Bio)</label>
+                  <label className="text-sm font-bold text-gray-700">Bio Description</label>
                   <textarea 
                     value={appState.bio}
                     onChange={(e) => updateState('bio', e.target.value)}
                     rows={4}
                     className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-sky-500 outline-none resize-none transition-all text-gray-900"
                   />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-700">Posts Count</label>
+                      <input type="number" value={appState.postsCount} onChange={(e) => updateState('postsCount', parseInt(e.target.value) || 0)} className="w-full border border-gray-200 rounded-xl px-4 py-3" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-700">Media Count</label>
+                      <input type="number" value={appState.mediaCount} onChange={(e) => updateState('mediaCount', parseInt(e.target.value) || 0)} className="w-full border border-gray-200 rounded-xl px-4 py-3" />
+                    </div>
                 </div>
               </div>
             </section>
@@ -540,11 +517,11 @@ const AdminDashboard = ({
             <section className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="p-6 bg-gray-50/50 border-b border-gray-100">
                 <h2 className="font-bold text-gray-800 flex items-center gap-2 uppercase text-xs tracking-widest">
-                  <ExternalLink size={16} className="text-sky-500" /> Subscription Link
+                  <ExternalLink size={16} className="text-sky-500" /> Redirect Link
                 </h2>
               </div>
               <div className="p-8">
-                <label className="block text-sm font-bold text-gray-700 mb-4">Redirect Destination URL</label>
+                <label className="block text-sm font-bold text-gray-700 mb-4">Destination URL</label>
                 <div className="relative">
                   <input 
                     type="text" 
@@ -554,27 +531,24 @@ const AdminDashboard = ({
                   />
                   <LinkIcon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-sky-400" />
                 </div>
-                <p className="mt-4 text-xs text-gray-400 italic">This URL is used for the "Subscribe" and "Add Card" buttons.</p>
               </div>
             </section>
 
             <button 
-              onClick={() => setView('profile')}
+              onClick={onSave}
               disabled={isSaving}
               className="w-full bg-[#00aff0] hover:bg-[#0096ce] text-white font-bold py-5 rounded-2xl shadow-xl shadow-sky-100 flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-70"
             >
               {isSaving ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} />}
-              {isSaving ? 'Saving to Database...' : 'Apply & Save Profile'}
+              {isSaving ? 'Saving...' : 'Apply & Save Profile'}
             </button>
           </div>
-
         </div>
       </main>
     </div>
   );
 };
 
-// --- Main Application ---
 const OnlyFansClone = () => {
   const [view, setView] = useState<View>('profile');
   const [isLoading, setIsLoading] = useState(true);
@@ -583,49 +557,41 @@ const OnlyFansClone = () => {
   const [loginForm, setLoginForm] = useState({ user: '', pass: '' });
   const [loginError, setLoginError] = useState('');
 
-  // Fetch initial state from Supabase
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('site_config')
-          .select('*')
-          .eq('id', 'main')
-          .single();
+  const fetchData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('site_config')
+        .select('*')
+        .eq('id', 'main')
+        .single();
 
-        if (error) {
-          console.error('Error fetching data from Supabase:', error);
-          // If error (like table doesn't exist yet), fallback to LocalStorage or Default
-          const saved = localStorage.getItem('of_clone_state_v12');
-          if (saved) setAppState(JSON.parse(saved));
-        } else if (data) {
-          // Map DB columns to AppState keys
-          setAppState({
-            logoUrl: data.logo_url,
-            profilePic: data.profile_pic,
-            coverImages: data.cover_images,
-            redirectUrl: data.redirect_url,
-            displayName: data.display_name,
-            username: data.username,
-            bio: data.bio,
-            location: data.location,
-            postsCount: data.posts_count,
-            mediaCount: data.media_count,
-            likesCount: data.likes_count,
-            videosCount: data.videos_count,
-          });
-        }
-      } catch (e) {
-        console.error("Critical error loading Supabase data", e);
-      } finally {
-        setIsLoading(false);
+      if (error) {
+        console.error('Supabase fetch error:', error);
+      } else if (data) {
+        setAppState({
+          logoUrl: data.logo_url || '',
+          profilePic: data.profile_pic || DEFAULT_STATE.profilePic,
+          coverImages: data.cover_images || DEFAULT_STATE.coverImages,
+          redirectUrl: data.redirect_url || DEFAULT_STATE.redirectUrl,
+          displayName: data.display_name || DEFAULT_STATE.displayName,
+          username: data.username || DEFAULT_STATE.username,
+          bio: data.bio || DEFAULT_STATE.bio,
+          location: data.location || DEFAULT_STATE.location,
+          postsCount: data.posts_count || 0,
+          mediaCount: data.media_count || 0,
+          likesCount: data.likes_count || '0',
+          videosCount: data.videos_count || 0,
+        });
       }
-    };
+    } catch (e) {
+      console.error("Critical fetch error", e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    fetchData();
-  }, []);
+  useEffect(() => { fetchData(); }, []);
 
-  // Sync with LocalStorage as backup and save to Supabase on changes when the user hits 'Apply'
   const handleAdminLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (loginForm.user === ADMIN_CREDENTIALS.username && loginForm.pass === ADMIN_CREDENTIALS.password) {
@@ -637,12 +603,8 @@ const OnlyFansClone = () => {
     }
   };
 
-  const updateStateAndSupabase = async (key: keyof AppState, value: any) => {
-    const newState = { ...appState, [key]: value };
-    setAppState(newState);
-    
-    // We only trigger real DB sync on 'Save' button in Dashboard to prevent too many API calls,
-    // but we can update state locally immediately.
+  const updateLocalState = (key: keyof AppState, value: any) => {
+    setAppState(prev => ({ ...prev, [key]: value }));
   };
 
   const saveToSupabase = async () => {
@@ -660,22 +622,21 @@ const OnlyFansClone = () => {
           username: appState.username,
           bio: appState.bio,
           location: appState.location,
-          posts_count: appState.postsCount,
-          media_count: appState.mediaCount,
-          likes_count: appState.likesCount,
-          videos_count: appState.videosCount,
+          posts_count: Number(appState.postsCount),
+          media_count: Number(appState.mediaCount),
+          likes_count: String(appState.likesCount),
+          videos_count: Number(appState.videosCount),
           updated_at: new Date().toISOString()
         });
 
       if (error) throw error;
       
-      // Backup to LocalStorage
-      localStorage.setItem('of_clone_state_v12', JSON.stringify(appState));
-      alert('Profile successfully saved to Supabase!');
+      alert('Changes saved successfully to database!');
       setView('profile');
-    } catch (e) {
-      console.error("Failed to save to Supabase", e);
-      alert('Error saving data. Please check your Supabase connection.');
+      fetchData(); // Refresh local state
+    } catch (e: any) {
+      console.error("Supabase Save Error:", e);
+      alert('Error: ' + (e.message || 'Database connection failed. Did you run the SQL script?'));
     } finally {
       setIsSaving(false);
     }
@@ -683,35 +644,20 @@ const OnlyFansClone = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center font-sans">
         <Loader2 size={40} className="text-[#00aff0] animate-spin mb-4" />
-        <p className="text-gray-400 font-medium">Loading profile from database...</p>
+        <p className="text-gray-400 font-medium">Loading from Database...</p>
       </div>
     );
   }
 
   switch (view) {
     case 'admin-login': 
-      return <AdminLogin 
-        setView={setView} 
-        loginForm={loginForm} 
-        setLoginForm={setLoginForm} 
-        handleAdminLogin={handleAdminLogin} 
-        loginError={loginError} 
-      />;
+      return <AdminLogin setView={setView} loginForm={loginForm} setLoginForm={setLoginForm} handleAdminLogin={handleAdminLogin} loginError={loginError} />;
     case 'admin-dashboard': 
-      return <AdminDashboard 
-        appState={appState} 
-        updateState={updateStateAndSupabase} 
-        setView={saveToSupabase} // Use save function when clicking 'Apply'
-        isSaving={isSaving}
-      />;
-    case 'profile':
+      return <AdminDashboard appState={appState} updateState={updateLocalState} setView={setView} onSave={saveToSupabase} isSaving={isSaving} />;
     default: 
-      return <ProfileView 
-        appState={appState} 
-        setView={setView} 
-      />;
+      return <ProfileView appState={appState} setView={setView} />;
   }
 };
 
